@@ -53,6 +53,13 @@ void child(int n, int k, int r) {
           continue;
         }
 
+        // don't kill processes with pid 0, 1, or 2 (kernel processes)
+        case 0:
+        case 1:
+        case 2: {
+          printf("Cannot kill pid %d\n", kill_pid);
+        } break;
+
         default: {
           printf("Killing process with pid: %d\n", kill_pid);
           if (kill(kill_pid, SIGKILL) == -1) {
@@ -60,6 +67,7 @@ void child(int n, int k, int r) {
           }
         } break;
       }
+      printf("\n");
     }
     printf("Stopped child loop\n");
 
@@ -102,8 +110,8 @@ void print_processes(int k) {
     close(fd[0]);
     close(fd[1]);
 
-    // char* args[] = {"ps", "ouser,pid,%mem,time,cmd", "k-%mem", NULL};
-    char* args[] = {"ps", "ouser,pid,%mem,time,cmd", "k-pid", NULL};
+    char* args[] = {"ps", "ouser,pid,%mem,time,cmd", "k-%mem", NULL};
+    // char* args[] = {"ps", "ouser,pid,%mem,time,cmd", "k-pid", NULL};
     execvp("ps", args);
   }
 
