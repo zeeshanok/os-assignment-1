@@ -14,9 +14,11 @@ int main(int argc, char const* argv[]) {
 
   int arr[] = {3, 15, 4, 6, 7, 17, 9, 2};
   int arr_n = sizeof(arr) / sizeof(arr[0]);
+
   int visited[arr_n];
-  for (int i = 0; i < arr_n; i++)
+  for (int i = 0; i < arr_n; i++) {
     visited[i] = 0;
+  }
 
   int n;
   printf("n: ");
@@ -43,32 +45,29 @@ void parent(int x, int n) {
   int fd[2];
   pipe(fd);
 
-  pid_t pid = fork();
-  if (pid == -1) {
-    exit(1);
-  }
-
-  if (pid == 0) {
+  if (fork() == 0) {
     // child
     int x;
     read(fd[0], &x, sizeof(x));
 
     close(fd[0]);
+    close(fd[1]);
+
     child(x, n);
 
     exit(0);
-  } else {
-    // parent
-    // printf("Parent: spawned child %i\n", pid);
-    write(fd[1], &x, sizeof(x));
-    close(fd[1]);
-
-    int seconds = x % n;
-    // printf("Parent: sent %i to child, waiting %is\n", x, seconds);
-    sleep(seconds);
-
-    waitpid(pid, NULL, 0);
   }
+
+  // parent
+  write(fd[1], &x, sizeof(x));
+
+  close(fd[0]);
+  close(fd[1]);
+
+  int seconds = x % n;
+  sleep(seconds);
+
+  wait(NULL);
 }
 
 void child(int x, int n) {
@@ -82,6 +81,5 @@ void child(int x, int n) {
   }
 
   int seconds = time(NULL) % n;
-  // printf("Child: done, sleeping for %is\n", seconds);
   sleep(seconds);
 }

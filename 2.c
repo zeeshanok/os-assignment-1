@@ -132,6 +132,8 @@ void print_processes(int k) {
     execvp("head", args);
   }
 
-  wait(NULL);
-  wait(NULL);
+  close(fd[0]);
+  close(fd[1]);
+
+  while (wait(NULL) > 0);
 }
