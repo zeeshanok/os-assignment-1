@@ -110,7 +110,7 @@ void print_processes(int k) {
     close(fd[0]);
     close(fd[1]);
 
-    char* args[] = {"ps", "ouser,pid,%mem,time,cmd", "k-%mem", NULL};
+    char* args[] = {"ps", "ouser,pid,%mem,time", "k-%mem", NULL};
     // char* args[] = {"ps", "ouser,pid,%mem,time,cmd", "k-pid", NULL};
     execvp("ps", args);
   }
