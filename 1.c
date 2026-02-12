@@ -36,7 +36,7 @@ int main(int argc, char const* argv[]) {
     parent(arr[i], n);
   }
 
-  return 0;
+  return EXIT_SUCCESS;
 }
 
 void parent(int x, int n) {

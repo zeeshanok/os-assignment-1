@@ -8,7 +8,7 @@
 int main(int argc, char const* argv[]) {
   if (argc <= 2) {
     fprintf(stderr, "Usage: %s <pattern> <file1> [<file2> ...]\n", argv[0]);
-    return 1;
+    return EXIT_SUCCESS;
   }
 
   int fd[2];
@@ -64,5 +64,5 @@ int main(int argc, char const* argv[]) {
 
   while (wait(NULL) > 0);
 
-  return 0;
+  return EXIT_SUCCESS;
 }

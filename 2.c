@@ -16,7 +16,7 @@ int main(int argc, char const* argv[]) {
 
   child(n, k, r);
 
-  return 0;
+  return EXIT_SUCCESS;
 }
 
 void child(int n, int k, int r) {
